@@ -1,0 +1,11 @@
+digraph cluster_0 {
+	three -> four;
+	four -> three;
+}
+digraph cluster_1 {
+	one -> two;
+	two -> one;
+}
+digraph scc_map {
+	cluster_1 -> cluster_0;
+}

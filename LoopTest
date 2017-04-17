@@ -1,0 +1,20 @@
+a [0,1]
+b [0,1]
+c [0,1]
+d [0,1]
+e [0,1]
+f [0,1]
+g [0,1]
+h [0,1]
+i [0,1]
+j [0,1]
+k [0,1]
+
+a 0 -> 1 when b=1
+b 0 -> 1 when c=1
+c 0 -> 1 when a=1
+b 0 -> 1 when d=1
+d 0 -> 1 when i=0 and e=1
+e 0 -> 1 when f=1
+e 0 -> 1 when k=1
+f 0 -> 1 when h=0 and d=1
