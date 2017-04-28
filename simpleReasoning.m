@@ -1,24 +1,24 @@
-function [reachable,sequence,finalState]=simpleReasoning(adjList,newLabels,process,init_state,startNode,sequence)
+function [reachable,sequence,finalState]=simpleReasoning(adjList,newLabels,process,init_state,startNode)
+sequence=[];
 reachable=0;
 finalState=init_state;
 current=startNode;
-%succ=adjList{1,current};temp=newLabels{succ};
-if inState(newLabels,current,process,init_state)
-    %isequal(newLabels{current}{2},init_state{process(newLabels{current}{1}),2})%if already reached
+if inState(newLabels,current,process,init_state)%if already reached
     reachable=1;
     return;
 end
-%while ~isempty(Adj(current,Adj(current,:)~=0))
 
 while ~isempty(adjList{1,current})
     temp=current;
     for i=1:3
-%         newLabels{current}
         if isempty(current)
             reachable=0;
             return;
         end
         current=adjList{1,current};
+    end
+    if isempty(current)
+        return;
     end
     sequence=[{newLabels(current),newLabels{temp}};sequence];%find corresponding action
     if inState(newLabels,current,process,init_state)

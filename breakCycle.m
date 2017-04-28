@@ -10,10 +10,6 @@ function Adj=breakCycle(Adj,SCC,startNode)
                 pred=find(Adj(:,toDelete));
                 Adj=deleteElement(Adj,toDelete);
                 Adj=deleteExcessive(Adj,pred,startNode);
-%                 while sum(Adj(temp(end),:)==0)
-%                     deleteElement(Adj,temp(end));
-%                 end
-                %Adj(:,j)=zeros(1,size(Adj,1));
             else   % second case of breaking the cycle: with exterior link
                 pred=find(Adj(:,j));  
                 extLink=find(ismember(pred,SCC{i})==0);
