@@ -32,17 +32,17 @@ while ~isempty(current)
     cnt=cnt+1;
 end
 conflict=find(sum(adjMat(1:end,:)~=0)>1);%solve the case where a state is required by multiple solutions
-for i=conflict
-    pos=find(adjMat(:,i)'~=0);
-    pos=pos(2:end);
-    adjMat(pos,i)=0;
-    for j=pos %may be modified, delete excessive forks
-        while sum(adjMat(pos,:)~=0)==0
-            pred=find(adjMat(:,pos)~=0);
-            adjMat(:,pos)=0;
-            pos=pred;
-        end
-    end
-end
+% for i=conflict
+%     pos=find(adjMat(:,i)'~=0);
+%     pos=pos(2:end);
+%     adjMat(pos,i)=0;
+%     for j=pos %may be modified, delete excessive forks
+%         while sum(adjMat(pos,:)~=0)==0
+%             pred=find(adjMat(:,pos)~=0);
+%             adjMat(:,pos)=0;
+%             pos=pred;
+%         end
+%     end
+% end
 newAdjList=adjList(adjMat);
 end
