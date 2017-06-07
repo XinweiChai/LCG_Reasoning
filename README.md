@@ -8,7 +8,7 @@ This project uses the open source code `dot_to_graph.m` Copyright (c) 2009, Leon
 
 ## Running
 
-Run `main.m`, there are 5 small examples and 1 big example (EGFR). 
+Run `main.m`, there are 5 small examples corresponding to the ones in my paper and 1 big example (EGFR). 
 
 ## Contact
 
