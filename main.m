@@ -40,6 +40,7 @@ end
 [newLabels,procs,objs,sols]=parseName(labels);
 %% 
 adjList=adjList(Adj);
+tic
 adjList=precondition(adjList,objs);
 reachable=0;
 for i=1:500
@@ -62,3 +63,4 @@ if reachable
 else
     disp('unreachable');
 end
+toc
