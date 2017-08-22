@@ -1,5 +1,5 @@
 clc;clear;
-x=input('0 for figures in the paper, 1 for EGFR example: ');
+x=input('0 for figures in the paper, 1 for EGFR example, 2 for multiReq test: ');
 switch x
     case 0
         y=input('examples from 1-5: ');
@@ -24,6 +24,9 @@ switch x
                 disp('invalid input');
                 return;
         end
+        case 2
+        [process, actions, init_state,startNode]=readBAN('data\\multiReq');
+        [Adj, labels] = dot_to_graph('data\\multiReq.dot');
     otherwise
         disp('invalid input');
         return;
@@ -37,6 +40,7 @@ end
 [newLabels,procs,objs,sols]=parseName(labels);
 %% 
 adjList=adjList(Adj);
+tic
 adjList=precondition(adjList,objs);
 reachable=0;
 for i=1:500
@@ -59,3 +63,4 @@ if reachable
 else
     disp('unreachable');
 end
+toc
