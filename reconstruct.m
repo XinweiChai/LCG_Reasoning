@@ -1,3 +1,4 @@
+%reconstruct the LCG modification needed for SLCG
 function [newAdjList,adjMat,procs,objs,sols]=reconstruct(adjlist,startNode)
 procs=[];
 objs=[];
