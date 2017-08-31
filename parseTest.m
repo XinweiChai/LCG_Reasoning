@@ -1,7 +1,7 @@
 %Read the .out file of pint test
 
 clc;clear;
-f=fopen('run-egfr104-priority-2015-02-12.out','r');
+f=fopen('data\\run-egfr104-priority-2015-02-12.out','r');
 %killed=9986;
 %Inconc=zeros(killed,12);
 Inconc=[];
