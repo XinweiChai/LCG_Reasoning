@@ -2,6 +2,7 @@ function initialNode=SLCG(initialState, actions, startNode)
 %node=(type, name, state) e.g. initialState=(0,1,0) (stateNode, 1st sort, state 0)
 %sol=(1,1) (solutionNode, 1st action) 0 stands for trivial solution
 %Need a dictionary for names of sorts (finished)
+%Need an array for actions
 %action=({hitter(s), hitterState(s)}, target, targetState)
 Ls=startNode;
 LS=initialState;
