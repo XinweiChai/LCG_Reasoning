@@ -35,13 +35,14 @@ while ~feof(f)
     end
     if ~isequal(s(1),{'initial_state'})%read actions, need modifications
         act=cell(1,4);
-        act{2}=s{1};
+        act{2}=dict(s{1});
         act{3}=(s{2});
         act{4}=(s{4});
         s=s(1,6:end);
         s(2:2:size(s,2))=[];
         for i=1:size(s,2)
-            act{1}=[act{1};regexp(s{1,i},'=', 'split')];
+            temp=regexp(s{1,i},'=', 'split');
+            act{1}=[act{1};dict(temp{1}),temp(2)];
         end
         actions=[actions;act];
     end
