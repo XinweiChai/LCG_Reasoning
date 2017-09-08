@@ -32,9 +32,7 @@ while ~feof(f)
     
 %     init_state=cell(size(process,1),2);
 %     init_state(:,1)=process;
-    for i=1:size(process,1)
-        init_state(i)=0;
-    end
+    init_state=zeros(1,size(process,1));
     if ~isequal(s(1),{'initial_state'})%read actions
         act=cell(1,4);
         act{2}=dict(s{1});
@@ -44,7 +42,7 @@ while ~feof(f)
         s(2:2:size(s,2))=[];
         for i=1:size(s,2)
             temp=regexp(s{1,i},'=', 'split');
-            act{1}=[act{1};dict(temp{1}),temp(2)];
+            act{1}=[act{1};[dict(temp{1}),str2double(temp(2))]];
         end
         actions=[actions;act];
     end
