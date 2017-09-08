@@ -6,5 +6,5 @@ n1=dlnode(3);
 insertAfter(n1,n2);
 a(1,10)=dlnode();
 
-[process, actions, initialState,startNode]=readBAN('data\\LCG1');
+[process, actions, initialState,startNode]=readBAN('egfr104.an');
 stateNodeArray=SLCG(initialState, actions, startNode);
