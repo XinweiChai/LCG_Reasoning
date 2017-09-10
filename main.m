@@ -31,9 +31,37 @@ switch x
         disp('invalid input');
         return;
 end
-initialNode=SLCG(initialState, actions, startNode);
+[stateNodeArray, adjMatrix]=SLCG(initialState, actions, startNode);
+[SCC,~] = tarjan(adjMatrix);
+while size(SCC,2)~=size(adjMatrix,2)
+    Adj=breakCycle(adjMatrix,SCC,startNode);
+    [SCC,~] = tarjan(Adj);
+end
+adjList=precondition(adjList);% Rewrite
+reachable=0;
+for i=1:500
+[newAdjList,adjMatrix]=reconstruct(adjList,startNode);%use nargin
+andGates=sols(sum(adjMat(sols,:)'~=0)>1);
+if ~isempty(sols(sum(adjMat(sols,:)'~=0)>10))
+    sols(sum(adjMat(sols,:)'~=0)>10);
+    disp('Big and gates detected, continue?');
+    pause;
+end
+andGateTree=gateTree(newAdjList,andGates,startNode);
+[reachable,sequence,finalState]=andReasoning(newAdjList,andGateTree,startNode,process, init_state,newLabels);
+if reachable
+    break;
+end
+end
+if reachable
+    disp('reachable');
+    disp(output(sequence));
+else
+    disp('unreachable');
+end
 
-% [SCC,~] = tarjan(Adj);
+
+% [SCC,~] = tarjan(Adj); %Adjacency matrix
 % startNode=find(strcmp(labels, startNode));
 % while size(SCC,2)~=size(Adj,2)
 %     Adj=breakCycle(Adj,SCC,startNode);
@@ -65,4 +93,4 @@ initialNode=SLCG(initialState, actions, startNode);
 % else
 %     disp('unreachable');
 % end
-%toc
+% toc
