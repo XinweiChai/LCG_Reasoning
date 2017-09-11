@@ -1,4 +1,4 @@
-function [stateNodeArray, adjMatrix]=SLCG(initialState, actions, startNode)
+function [stateNodeArray, adjMatrix,solNodeArray]=SLCG(initialState, actions, startNode)
 %node=(type, name, state) e.g. initialState=[1,0] (1st sort, state 0)
 %sol=1 ( 1st action) 0 stands for trivial solution
 %Need a dictionary for names of sorts (finished)
@@ -29,16 +29,16 @@ while ~isempty(Ls)
         if i(2)==initialState(i(1))
             continue;
         else
-            nodei=stateNodeArray((i(1)-1)*2+i(2)+1);
+            nodei=stateNodeArray(i(1)*2+i(2)-1);
             act=ismember(targets,i','rows');
             for j=find(act)'%successive actions
                 nodej=solNodeArray(j);
                 insertAfter(nodej,nodei);
                 adjMatrix((i(1)-1)*2+i(2)+1,size(initialState,2)*2+j)=1;
                 for k=actions{j,1}'
-                    nodek=stateNodeArray((k(1)-1)*2+k(2)+1);
+                    nodek=stateNodeArray(k(1)*2+k(2)-1);
                     insertAfter(nodek,nodej);
-                    adjMatrix(size(initialState,2)*2+j,(k(1)-1)*2+k(2)+1)=1;
+                    adjMatrix(size(initialState,2)*2+j,k(1)*2+k(2)-1)=1;
                     Ls=[Ls;k'];
                 end
                 %                 LS=union(LS,ls);

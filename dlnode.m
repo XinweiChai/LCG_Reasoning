@@ -1,4 +1,4 @@
-classdef dlnode < handle
+classdef dlnode <  matlab.mixin.Copyable
     % dlnode A class to represent a doubly-linked list node.
     % Link multiple dlnode objects together to create linked lists.
     properties
@@ -7,6 +7,8 @@ classdef dlnode < handle
     properties(SetAccess = private)
         Next = dlnode.empty;
         Prev = dlnode.empty;
+        NextBranch=dlnode.empty;
+        PrevBranch=dlnode.empty;
     end
     
     methods
@@ -29,6 +31,7 @@ classdef dlnode < handle
             %          end
             nodeBefore.Next = [nodeBefore.Next,newNode];
         end
+        
         function deleteNode(node)
             for i=node.Prev
                 for j=i.Next
@@ -41,7 +44,26 @@ classdef dlnode < handle
             node.Next = dlnode.empty;
             node.Prev = dlnode.empty;
         end
-        
+        function cut(nodeBefore,nodeAfter)
+            for i=nodeBefore.Next
+                if isequal(i,nodeAfter)
+                    i=[];
+                    break;
+                end
+            end
+            for i=nodeAfter.Prev
+                if isequal(i,nodeBefore)
+                    i=[];
+                    break;
+                end
+            end
+        end
+        function shortcut(node)
+            node.NextBranch=node.Next.Next;
+            for i=node.NextBranch
+                i.PrevBranch=node;
+            end
+        end
     end % methods
     
 end % classdef

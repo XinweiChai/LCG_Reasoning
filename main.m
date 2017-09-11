@@ -36,7 +36,7 @@ end
 [stateNodeArray, adjMatrix]=SLCG(initialState, actions, startNode);
 initialStateBool=zeros(size(initialState,2)*2,1);
 for i=1:size(initialState,2)
-    initialStateBool((i-1)*2+initialState(i)+1)=1;
+    initialStateBool(i*2+initialState(i)-1)=1;
 end
 [SCC,~] = tarjan(adjMatrix);
 while size(SCC,2)~=size(adjMatrix,2)
