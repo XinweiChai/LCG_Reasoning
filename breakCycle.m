@@ -1,4 +1,4 @@
-function Adj=breakCycle(Adj,SCC,startNode)
+function [Adj,stateNodeArray]=breakCycle(Adj,SCC,startNode,stateNodeArray)
      for i=1:size(SCC,2)
          if size(SCC{i},2)==1
              break;
@@ -8,8 +8,8 @@ function Adj=breakCycle(Adj,SCC,startNode)
             if j==startNode
                 toDelete=fliplr(find(Adj(:,j))')';
                 pred=find(Adj(:,toDelete));
-                Adj=deleteElement(Adj,toDelete);
-                Adj=deleteExcessive(Adj,pred,startNode);
+                Adj=deleteElement(Adj,toDelete,stateNodeArray);
+                Adj=deleteExcessive(Adj,pred,startNode,stateNodeArray);
             else   % second case of breaking the cycle: with exterior link
                 pred=find(Adj(:,j));  
                 extLink=find(ismember(pred,SCC{i})==0);

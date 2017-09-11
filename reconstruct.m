@@ -46,4 +46,8 @@ for i=conflict
     end
 end
 newAdjList=adjList(adjMat);
+
+
+
+
 end
