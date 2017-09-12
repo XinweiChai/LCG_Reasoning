@@ -45,23 +45,30 @@ classdef dlnode <  matlab.mixin.Copyable
             node.Prev = dlnode.empty;
         end
         function cut(nodeBefore,nodeAfter)
-            for i=nodeBefore.Next
-                if isequal(i,nodeAfter)
-                    i=[];
-                    break;
-                end
-            end
-            for i=nodeAfter.Prev
-                if isequal(i,nodeBefore)
-                    i=[];
-                    break;
-                end
-            end
+            nodeBefore.Next(arrayfun(@(x) isequal(x,nodeAfter),nodeBefore.Next))=[];
+            nodeAfter.Prev(arrayfun(@(x) isequal(x,nodeBefore),nodeAfter.Prev))=[];
         end
         function shortcut(node)
             node.NextBranch=node.Next.Next;
             for i=node.NextBranch
                 i.PrevBranch=node;
+            end
+        end
+        function bool=hasNext(node)
+            bool=~isempty(node.Next);
+        end
+        function bool=isGate(node,initialState)
+%             count=0;
+            for i=node.Next
+                if i.Data(2)==initialState(i.Data(1))
+                    cut(node,i);
+%                     count=count+1;
+                end
+            end
+            bool=size(node.Next,2)>1;
+            if size(node.Next,2)>10
+                disp('Big and gates detected, continue?');
+                pause;
             end
         end
     end % methods

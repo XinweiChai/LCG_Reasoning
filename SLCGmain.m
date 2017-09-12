@@ -1,4 +1,4 @@
-clc;clear;
+clc;
 [process, actions, initialState]=readBAN('data\\egfr104.an');
 [inconc,dictInput,dictOutput]=parseTest('data\\run-egfr104-priority.out');
 result=zeros(size(inconc,1),size(dictOutput,1));
@@ -24,21 +24,10 @@ for i=inconc'
             numStates=2*size(initialState,2);
             adjMatrix=precondition(stateNodeArray,initialStateBool);
             reachable=0;
-            andGates=[];
             bigGates=[];
             for l=1:500
                 stateNodeArray=reconstruct(stateNodeArray,startNode);
-                for m=solNodeArray
-                    if size(m.Next,2)>1
-                        andGates=[andGates,m];
-                        if size(m.Next,2)>10
-                            bigGates=[bigGates,m];
-                            disp('Big and gates detected, continue?');
-                            pause;
-                        end
-                    end
-                end
-%                 andGates=sols(sum(adjMat(sols,:)'~=0)>1);
+                andGates=solNodeArray(arrayfun(@(x) isGate(x,tempInitialState),solNodeArray));
                 [andGateTree,root]=gateTree(andGates,startNode);
                 [reachable,sequence,finalState]=andReasoning(stateNodeArray,andGateTree,startNode,tempInitialState);
                 if reachable

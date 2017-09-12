@@ -4,9 +4,9 @@ clc;clear
  insertAfter(n2,n1);
  n3=dlnode(3);
  insertAfter(n3,n2);
-  n4=dlnode.empty;
- array=[n1,n2,n3,n4];
-
+ array=[n1,n2,n3];
+a=array(arrayfun(@(x) ~isempty(x.Next),array));
+x=perms(array)
 % a(1,10)=dlnode();
 % 
 % [process, actions, initialState,startNode]=readBAN('egfr104.an');
