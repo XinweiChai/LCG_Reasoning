@@ -32,6 +32,10 @@ classdef dlnode <  matlab.mixin.Copyable
             nodeBefore.Next = [nodeBefore.Next,newNode];
         end
         
+        function insertBranch(after,before)
+            after.Prev = [after.Prev,before];
+            before.Next = [before.Next,after];
+        end
         function deleteNode(node)
             for i=node.Prev
                 i.Next(arrayfun(@(x) isequal(x,node),i.Next))=[];

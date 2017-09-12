@@ -1,21 +1,27 @@
 function [gateTree,root]=gateTree(gates,startNode)
-if isempty(startNode.Next)
-    gateTree=[];
+if isempty(gates)
     root=[];
     return;
 end
 root=startNode;
-gateTree=root;
 while ~ismember(root,gates)
         root=root.Next;
 end
-
+gateTree=root;
 while ~isempty(root)
-    while size(root.Next,2)<=1
-        shortcut(root);
-        gateTree=[gateTree,root];
+    for i=root
+        root=root(2:end);
+        for j=i.Next
+            while ~ismember(j,gates) && hasNext(j)
+                j=j.Next;
+            end
+            if hasNext(j)
+                insertBranch(j,root);
+                root=[root,j];
+                gateTree=[gateTree,j];
+            end
+        end
     end
-    root=root.NextBranch;
 end
 
     

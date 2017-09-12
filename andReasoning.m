@@ -6,10 +6,10 @@ if isempty(andGateTree)
     return;
 end
 
-while isempty(andGateTree)
-    leaves=andGateTree(arrayfun(@(x) ~hasNext(x),andGateTree));
+while ~isempty(andGateTree)
+    leaves=andGateTree(arrayfun(@(x) isempty(x.NextBranch),andGateTree));
     for i=leaves
-        cut(i.Pred,i);
+        cut(i.Prev,i);
         andGateTree(arrayfun(@(x) isequal(x,i),andGateTree))=[];
         cand=perms(i.Next); 
         for j=cand'
@@ -28,7 +28,7 @@ while isempty(andGateTree)
                 sequence=[sequence;cache];
 %                 temp=adjList{2,andGateTree{1,i}};
 %                 forkNode=adjList{2,temp};
-                [~,partialSequence,state]=simpleReasoning(stateNodeArray,process,state,i.Prev);
+                [~,partialSequence,state]=simpleReasoning(state,i.Prev);
                 sequence=[sequence;partialSequence];
                 break;
             end
