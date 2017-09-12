@@ -1,6 +1,8 @@
-function [reachable,sequence,state]=andReasoning(stateNodeArray,andGateTree,startNode,state,root)
+function [reachable,sequence,state]=andReasoning(stateNodeArray,andGateTree,startNode,state)
+reachable=0;
+sequence=[];
 if isempty(andGateTree)
-    [reachable,sequence,state]=simpleReasoning(stateNodeArray,state,startNode);
+    [reachable,sequence,state]=simpleReasoning(state,startNode,actions);
     return;
 end
 
@@ -14,7 +16,7 @@ while isempty(andGateTree)
             reachable=1;
             for k=j'
                 cache=[];
-                [partialReachable,partialSequence,state]=simpleReasoning(adjList,newLabels,process,state,k);
+                [partialReachable,partialSequence,state]=simpleReasoning(state,startNode);
                 reachable=reachable*partialReachable;
                 if ~partialReachable
                     break;
@@ -26,7 +28,7 @@ while isempty(andGateTree)
                 sequence=[sequence;cache];
 %                 temp=adjList{2,andGateTree{1,i}};
 %                 forkNode=adjList{2,temp};
-                [~,partialSequence,state]=simpleReasoning(adjList,newLabels,process,state,i.Prev);
+                [~,partialSequence,state]=simpleReasoning(stateNodeArray,process,state,i.Prev);
                 sequence=[sequence;partialSequence];
                 break;
             end
