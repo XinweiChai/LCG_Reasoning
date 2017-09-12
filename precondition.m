@@ -37,7 +37,8 @@
 % end
 function stateNodeArray=precondition(stateNodeArray,initialStateBool)
     for i=1:size(stateNodeArray,2)
-        if isempty(stateNodeArray(i).Next) && ~isempty(stateNodeArray(i).Prev) && ~initialStateBool(i)
+        if isempty(stateNodeArray(i).Next) && ~isempty(stateNodeArray(i).Prev)... 
+            && initialStateBool(i)~=stateNodeArray(i).Data(2)
             for j=stateNodeArray(i).Prev
                 deleteNode(j);
             end

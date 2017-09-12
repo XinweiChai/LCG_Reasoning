@@ -34,12 +34,8 @@ classdef dlnode <  matlab.mixin.Copyable
         
         function deleteNode(node)
             for i=node.Prev
-                for j=i.Next
-                    if isequal(j,node)
-                        j=dlnode.empty;
-                        break;
-                    end
-                end
+                i.Next(arrayfun(@(x) isequal(x,node),i.Next))=[];
+                break;
             end
             node.Next = dlnode.empty;
             node.Prev = dlnode.empty;
