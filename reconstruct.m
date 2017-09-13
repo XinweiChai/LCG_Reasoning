@@ -48,32 +48,27 @@
 % newAdjList=adjList(adjMat);
 % end
 %reconstruct the LCG modification needed for SLCG
-function stateNodeArray=reconstruct(stateNodeArray,startNode)%delete OR gates
+function [startNode,stateNodeArray,solArray]=reconstruct(stateNodeArray,startNode)%delete OR gates
+% keep=startNode;
+% toVisit=startNode;
+% while ~isempty(toVisit)
+%     for i=toVisit
+%         toVisit=toVisit(2:end);
+%         
+solArray=[];
 toVisit=startNode;
-coreNodes=startNode;
 while ~isempty(toVisit)
+    temp=[];
     for i=toVisit
-        toVisit=toVisit(2:end);
-        if ~isempty(i.Next)
-            act=i.Next(randi(size(i.Next,2)));
-            coreNodes=[coreNodes,act,act.Next];
-            toVisit=[toVisit,act.Next];
+        if hasNext(i)
+            toConnect=i.Next(randi(size(i.Next,2)));
+            arrayfun(@(x) cut(i,x),i.Next);
+            insertAfter(toConnect,i);
+            solArray=[solArray,toConnect];
+            temp=[temp,toConnect.Next];
         end
     end
-end
-
-for i=stateNodeArray%delete OR gate
-    if ~ismember(i,coreNodes)
-        deleteNode(i);
-    end
-end
-
-for i=stateNodeArray
-    if size(i.Prev,2)>1
-        for j=2:size(i.Prev,1)
-            cut(j,i);
-        end
-    end
+    toVisit=temp;
 end
 end
 % visited=zeros(1,size(stateNodeArray,2));

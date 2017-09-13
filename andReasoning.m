@@ -1,4 +1,4 @@
-function [reachable,sequence,state]=andReasoning(stateNodeArray,andGateTree,startNode,state)
+function [reachable,sequence,state]=andReasoning(andGateTree,startNode,state)
 reachable=0;
 sequence=[];
 if isempty(andGateTree)

@@ -8,7 +8,9 @@ clc;clear
  insertAfter(n4,n3);
  array1=[n1,n3];
  array2=[n2,n4];
- cut(n2,n2.Next);
+ array3=copy(array1);
+%  array4=copy(array2);
+ cut(array3(1),array3(1).Next);
 % a(1,10)=dlnode();
 % 
 % [process, actions, initialState,startNode]=readBAN('egfr104.an');

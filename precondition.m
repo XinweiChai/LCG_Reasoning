@@ -35,16 +35,26 @@
 %     adjMatrix(:,noSolution)=zeros(1,size(adjMatrix,1));
 %     
 % end
-function stateNodeArray=precondition(stateNodeArray,initialStateBool)
-    for i=1:size(stateNodeArray,2)
-        if isempty(stateNodeArray(i).Next) && ~isempty(stateNodeArray(i).Prev)... 
-            && initialStateBool(i)~=stateNodeArray(i).Data(2)
-            for j=stateNodeArray(i).Prev
-                deleteNode(j);
-            end
-            deleteNode(stateNodeArray(i));
-            stateNodeArray(i)=[];
-            stateNodeArray=precondition(stateNodeArray,initialStateBool);
-        end
-    end
+function stateArray=precondition(stateArray,initialState)
+ind=arrayfun(@(i) isempty(i.Next) && ~isempty(i.Prev)...
+&& initialState(i.Data(1))~=i.Data(2),stateArray);
+arrayfun(@(x) deleteNode(x.Prev),stateArray(ind));
+% arrayfun(@(x) deleteNode(x),stateNodeArray(ind));
+stateArray(ind)=[];
+if any(ind)
+    stateArray=precondition(stateArray,initialState);
+end
+
+
+
+%     for i=stateNodeArray
+%         if isempty(i.Next) && ~isempty(i.Prev) && initialState(i.Data(1))~=i.Data(2)
+%             for j=i.Prev
+%                 deleteNode(j);
+%             end
+%             deleteNode(i);
+%             stateNodeArray(i)=[];
+%             stateNodeArray=precondition(stateNodeArray,initialState);
+%         end
+%     end
 end

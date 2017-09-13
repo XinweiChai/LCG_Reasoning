@@ -37,12 +37,14 @@ classdef dlnode <  matlab.mixin.Copyable
             before.NextBranch = [before.NextBranch,after];
         end
         function deleteNode(node)
-            for i=node.Prev
-                i.Next(arrayfun(@(x) isequal(x,node),i.Next))=[];
-                break;
+            for i=node
+                for j=i.Prev
+                    j.Next(arrayfun(@(x) isequal(x,i),j.Next))=[];
+                    break;
+                end
+                i.Next = dlnode.empty;
+                i.Prev = dlnode.empty;
             end
-            node.Next = dlnode.empty;
-            node.Prev = dlnode.empty;
         end
         function cut(nodeBefore,nodeAfter)
             nodeBefore.Next(arrayfun(@(x) isequal(x,nodeAfter),nodeBefore.Next))=[];
@@ -64,20 +66,20 @@ classdef dlnode <  matlab.mixin.Copyable
         function bool=hasNext(node)
             bool=~isempty(node.Next);
         end
-        function bool=isGate(node,initialState)
-%             count=0;
-            for i=node.Next
-                if i.Data(2)==initialState(i.Data(1))
-                    cut(node,i);
-%                     count=count+1;
-                end
-            end
-            bool=size(node.Next,2)>1;
-            if size(node.Next,2)>10
-                disp('Big and gates detected, continue?');
-                pause;
-            end
-        end
+%         function bool=isGate(node,initialState)
+% %             count=0;
+%             for i=node.Next
+%                 if i.Data(2)==initialState(i.Data(1))
+%                     cut(node,i);
+% %                     count=count+1;
+%                 end
+%             end
+%             bool=size(node.Next,2)>1;
+%             if size(node.Next,2)>10
+%                 disp('Big and gates detected, continue?');
+%                 pause;
+%             end
+%         end
     end % methods
     
 end % classdef
