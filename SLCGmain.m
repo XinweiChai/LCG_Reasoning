@@ -13,20 +13,16 @@ for i=inconc'
             startState=[process(dictOutput(k)), 1];
             [stateArray, adjMatrix,solArray]=SLCG(tempInitialState, actions, startState);
             startNode=stateArray(startState(1)*2+startState(2)-1);
-            initialStateBool=zeros(size(initialState,2)*2,1);
-            for l=1:size(initialState,2)
-                initialStateBool(l*2+initialState(l)-1)=1;
-            end
             [SCC,~] = tarjan(adjMatrix);
             while size(SCC,2)~=size(adjMatrix,2)
                 [Adj,stateArray]=breakCycle(adjMatrix,SCC,startState,stateArray);
                 [SCC,~] = tarjan(Adj);
             end
             numStates=2*size(initialState,2);
-            stateArray=precondition(stateArray,initialStateBool);
+            stateArray=precondition(stateArray,initialState);
             reachable=0;
             bigGates=[];
-            for l=1:5
+            for l=1:500
                 stateArrayCopy=copy(stateArray);
                 startNodeCopy=copy(startNode);
                 [startNodeCopy,stateArrayCopy,solArray]=reconstruct(stateArrayCopy,startNodeCopy);
@@ -42,4 +38,5 @@ for i=inconc'
     end
     toc
     count
+    result(count,:)
 end

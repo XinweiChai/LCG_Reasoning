@@ -39,22 +39,8 @@ function stateArray=precondition(stateArray,initialState)
 ind=arrayfun(@(i) isempty(i.Next) && ~isempty(i.Prev)...
 && initialState(i.Data(1))~=i.Data(2),stateArray);
 arrayfun(@(x) deleteNode(x.Prev),stateArray(ind));
-% arrayfun(@(x) deleteNode(x),stateNodeArray(ind));
 stateArray(ind)=[];
 if any(ind)
     stateArray=precondition(stateArray,initialState);
 end
-
-
-
-%     for i=stateNodeArray
-%         if isempty(i.Next) && ~isempty(i.Prev) && initialState(i.Data(1))~=i.Data(2)
-%             for j=i.Prev
-%                 deleteNode(j);
-%             end
-%             deleteNode(i);
-%             stateNodeArray(i)=[];
-%             stateNodeArray=precondition(stateNodeArray,initialState);
-%         end
-%     end
 end

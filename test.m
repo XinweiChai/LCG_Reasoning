@@ -12,10 +12,8 @@ clc;clear
 %  array4=copy(array2);
  cut(array3(1),array3(1).Next);
 % a(1,10)=dlnode();
-% 
-% [process, actions, initialState,startNode]=readBAN('egfr104.an');
-% stateNodeArray=SLCG(initialState, actions, startNode);
-% a=[0 0 0 0;1 0 0 0;0 0 0 0];
-% any(a')
-% b=[0 0 0 0 0];
-% nonzeros(b)
+
+a=[0 0 0 0;1 0 0 0;0 0 0 0];
+any(a')
+b=[0 0 0 0 0];
+nonzeros(b)
