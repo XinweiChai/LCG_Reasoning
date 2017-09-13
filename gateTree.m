@@ -5,26 +5,26 @@ if isempty(gates)
 end
 root=startNode;
 while ~ismember(root,gates)
-        root=root.Next;
+    root=root.Next;
 end
 gateTree=root;
 while ~isempty(root)
     for i=root
-        root=root(2:end);
         for j=i.Next
             while ~ismember(j,gates) && hasNext(j)
                 j=j.Next;
             end
             if hasNext(j)
-                insertBranch(j,root);
+                insertBranch(j,i);
                 root=[root,j];
                 gateTree=[gateTree,j];
             end
         end
+        root=root(2:end);
     end
 end
 
-    
+
 % startNode=adjList{1,startNode};
 % if isempty(startNode)
 %     gateTree=[];

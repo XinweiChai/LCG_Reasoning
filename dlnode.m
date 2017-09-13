@@ -33,8 +33,8 @@ classdef dlnode <  matlab.mixin.Copyable
         end
         
         function insertBranch(after,before)
-            after.Prev = [after.Prev,before];
-            before.Next = [before.Next,after];
+            after.PrevBranch = before;
+            before.NextBranch = [before.NextBranch,after];
         end
         function deleteNode(node)
             for i=node.Prev
@@ -47,6 +47,13 @@ classdef dlnode <  matlab.mixin.Copyable
         function cut(nodeBefore,nodeAfter)
             nodeBefore.Next(arrayfun(@(x) isequal(x,nodeAfter),nodeBefore.Next))=[];
             nodeAfter.Prev(arrayfun(@(x) isequal(x,nodeBefore),nodeAfter.Prev))=[];
+        end
+        function cutBranch(nodeBefore,nodeAfter)
+            if isempty(nodeBefore) || isempty(nodeAfter)
+                return;
+            end
+            nodeBefore.NextBranch(arrayfun(@(x) isequal(x,nodeAfter),nodeBefore.NextBranch))=[];
+            nodeAfter.PrevBranch(arrayfun(@(x) isequal(x,nodeBefore),nodeAfter.PrevBranch))=[];
         end
         function shortcut(node)
             node.NextBranch=node.Next.Next;

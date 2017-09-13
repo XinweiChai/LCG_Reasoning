@@ -11,12 +11,11 @@ for i=1:5
         [SCC,~] = tarjan(Adj);
     end
     numStates=2*size(initialState,2);
-    adjMatrix=precondition(stateNodeArray,initialStateBool);
+    stateNodeArray=precondition(stateNodeArray,initialStateBool);
     reachable=0;
-    bigGates=[];
-    for l=1
+    for l=1:500
         stateNodeArray=reconstruct(stateNodeArray,startNode);
-        andGates=solNodeArray(arrayfun(@(x) isGate(x,initialState),solNodeArray));
+        andGates=solNodeArray(arrayfun(@(x) size(x.Next,2)>1,solNodeArray));
         [andGateTree,root]=gateTree(andGates,startNode);
         [reachable,sequence,finalState]=andReasoning(stateNodeArray,andGateTree,startNode,initialState);
         if reachable

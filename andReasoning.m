@@ -2,34 +2,36 @@ function [reachable,sequence,state]=andReasoning(stateNodeArray,andGateTree,star
 reachable=0;
 sequence=[];
 if isempty(andGateTree)
-    [reachable,sequence,state]=simpleReasoning(state,startNode,actions);
+    [reachable,sequence,state]=simpleReasoning(state,startNode);
     return;
 end
 
 while ~isempty(andGateTree)
     leaves=andGateTree(arrayfun(@(x) isempty(x.NextBranch),andGateTree));
     for i=leaves
-        cut(i.Prev,i);
+        cutBranch(i.PrevBranch,i);
         andGateTree(arrayfun(@(x) isequal(x,i),andGateTree))=[];
         cand=perms(i.Next); 
         for j=cand'
+            copyState=state;
             reachable=1;
+            cache=[];
             for k=j'
-                cache=[];
-                [partialReachable,partialSequence,state]=simpleReasoning(state,startNode);
+                [partialReachable,partialSequence,copyState]=simpleReasoning(copyState,k);
                 reachable=reachable*partialReachable;
                 if ~partialReachable
                     break;
                 end
-                cache=[cache;partialSequence];
+                cache=[cache,partialSequence];
 %                 sequence=[sequence;partialSequence];
             end
             if reachable %if one perm works, no need to check other perms
-                sequence=[sequence;cache];
+                sequence=[sequence,cache];
+                state=copyState;
 %                 temp=adjList{2,andGateTree{1,i}};
 %                 forkNode=adjList{2,temp};
                 [~,partialSequence,state]=simpleReasoning(state,i.Prev);
-                sequence=[sequence;partialSequence];
+                sequence=[sequence,partialSequence];
                 break;
             end
         end

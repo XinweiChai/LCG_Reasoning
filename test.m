@@ -4,9 +4,11 @@ clc;clear
  insertAfter(n2,n1);
  n3=dlnode(3);
  insertAfter(n3,n2);
- array=[n1,n2,n3];
-a=array(arrayfun(@(x) ~isempty(x.Next),array));
-x=perms(array)
+ n4=dlnode(4);
+ insertAfter(n4,n3);
+ array1=[n1,n3];
+ array2=[n2,n4];
+ cut(n2,n2.Next);
 % a(1,10)=dlnode();
 % 
 % [process, actions, initialState,startNode]=readBAN('egfr104.an');
@@ -15,4 +17,3 @@ x=perms(array)
 % any(a')
 % b=[0 0 0 0 0];
 % nonzeros(b)
-[res,resPos]=ismember(n2,array);

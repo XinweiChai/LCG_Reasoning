@@ -43,6 +43,7 @@ function stateNodeArray=precondition(stateNodeArray,initialStateBool)
                 deleteNode(j);
             end
             deleteNode(stateNodeArray(i));
+            stateNodeArray(i)=[];
             stateNodeArray=precondition(stateNodeArray,initialStateBool);
         end
     end
