@@ -1,7 +1,6 @@
-function [gateTree,root]=gateTree(gates,startNode)
+function gateTree=gateTree(gates,startNode)
 if isempty(gates)
     gateTree=[];
-    root=[];
     return;
 end
 root=startNode;

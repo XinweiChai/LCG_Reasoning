@@ -25,13 +25,12 @@ for i=tests'
             numStates=2*size(initialState,2);
             stateArray=precondition(stateArray,tempInitialState);
             reachable=0;
-            bigGates=[];
             for l=1:500
                 stateArrayCopy=copy(stateArray);
                 startNodeCopy=copy(startNode);
                 [startNodeCopy,stateArrayCopy,solArray]=reconstruct(stateArrayCopy,startNodeCopy);
                 andGates=solArray(arrayfun(@(x) size(x.Next,2)>1,solArray));
-                [andGateTree,root]=gateTree(andGates,startNodeCopy);
+                andGateTree=gateTree(andGates,startNodeCopy);
                 [reachable,sequence,finalState]=andReasoning(andGateTree,startNodeCopy,tempInitialState);
                 if reachable
                     break;
