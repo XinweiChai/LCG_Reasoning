@@ -1,7 +1,4 @@
-function [reachable,sequence,state]=andReasoning(andGateTree,startNode,state,count)
-if count==2
-    1;
-end
+function [reachable,sequence,state]=andReasoning(andGateTree,startNode,state)
 reachable=0;
 sequence=[];
 if isempty(andGateTree)
@@ -14,7 +11,7 @@ while ~isempty(andGateTree)
     for i=leaves
         arrayfun(@(x) cutBranch(x,i),i.PrevBranch);
         andGateTree(arrayfun(@(x) isequal(x,i),andGateTree))=[];
-        cand=perms(i.Next); 
+        cand=perms(i.Next);
         for j=cand'
             copyState=state;
             reachable=1;
@@ -26,13 +23,13 @@ while ~isempty(andGateTree)
                     break;
                 end
                 cache=[cache,partialSequence];
-%                 sequence=[sequence;partialSequence];
+                %                 sequence=[sequence;partialSequence];
             end
             if reachable %if one perm works, no need to check other perms
                 sequence=[sequence,cache];
                 state=copyState;
-%                 temp=adjList{2,andGateTree{1,i}};
-%                 forkNode=adjList{2,temp};
+                %                 temp=adjList{2,andGateTree{1,i}};
+                %                 forkNode=adjList{2,temp};
                 [~,partialSequence,state]=simpleReasoning(state,i.Prev);
                 sequence=[sequence,partialSequence];
                 break;

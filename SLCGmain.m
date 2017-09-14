@@ -1,11 +1,9 @@
 clc;clear
-% x=input('0 for TCR tests, 1 for egfr inconclusive tests: ');
-% data={'tcrsig94.an','egfr104.an'};
-% out={'run-tcrsig94.out';'run-egfr104-priority.out'};
-% [process, actions, initialState]=readBAN(['data\\',data{x+1}]);
-% [tests,dictInput,dictOutput]=parseTest(['data\\',out{x+1}]);
-[process, actions, initialState]=readBAN('data\\tcrsig94.an');
-[tests,dictInput,dictOutput]=parseTest('data\\run-tcrsig94.out');
+x=input('0 for TCR tests, 1 for egfr inconclusive tests: ');
+data={'tcrsig94.an','egfr104.an'};
+out={'run-tcrsig94.out';'run-egfr104-priority.out'};
+[process, actions, initialState]=readBAN(['data\\',data{x+1}]);
+[tests,dictInput,dictOutput]=parseTest(['data\\',out{x+1}]);
 result=zeros(size(tests,1),size(dictOutput,1));
 count=0;
 for i=tests'
@@ -28,13 +26,13 @@ for i=tests'
             stateArray=precondition(stateArray,tempInitialState);
             reachable=0;
             bigGates=[];
-            for l=1:50
+            for l=1:500
                 stateArrayCopy=copy(stateArray);
                 startNodeCopy=copy(startNode);
                 [startNodeCopy,stateArrayCopy,solArray]=reconstruct(stateArrayCopy,startNodeCopy);
                 andGates=solArray(arrayfun(@(x) size(x.Next,2)>1,solArray));
                 [andGateTree,root]=gateTree(andGates,startNodeCopy);
-                [reachable,sequence,finalState]=andReasoning(andGateTree,startNodeCopy,tempInitialState,count);
+                [reachable,sequence,finalState]=andReasoning(andGateTree,startNodeCopy,tempInitialState);
                 if reachable
                     break;
                 end
@@ -42,6 +40,4 @@ for i=tests'
             result(count,k)=reachable;
         end
     toc
-    count
-    result(count,:)
 end

@@ -19,17 +19,17 @@ classdef dlnode <  matlab.mixin.Copyable
             end
         end
         
-        function insertAfter(newNode, nodeBefore)
+        function insertAfter(nodeAfter, nodeBefore)
             % Insert newNode after nodeBefore.
             %          if ~isempty(newNode.Prev)
             %             newNode.Prev.Next=dlnode.empty;
             %          end
             %          newNode.Next = nodeBefore.Next;
-            newNode.Prev = [newNode.Prev,nodeBefore];
+            nodeAfter.Prev = [nodeAfter.Prev,nodeBefore];
             %          if ~isempty(nodeBefore.Next)
             %             nodeBefore.Next.Prev = newNode;
             %          end
-            nodeBefore.Next = [nodeBefore.Next,newNode];
+            nodeBefore.Next = [nodeBefore.Next,nodeAfter];
         end
         
         function insertBranch(after,before)

@@ -49,21 +49,19 @@
 % end
 %reconstruct the LCG modification needed for SLCG
 function [startNode,stateNodeArray,solArray]=reconstruct(stateNodeArray,startNode)%delete OR gates
-% keep=startNode;
-% toVisit=startNode;
-% while ~isempty(toVisit)
-%     for i=toVisit
-%         toVisit=toVisit(2:end);
-%         
 solArray=[];
 toVisit=startNode;
 while ~isempty(toVisit)
     temp=[];
     for i=toVisit
         if hasNext(i)
-            toConnect=i.Next(randi(size(i.Next,2)));
-            arrayfun(@(x) cut(i,x),i.Next);
-            insertAfter(toConnect,i);
+            if size(i.Next,2)>1
+                toConnect=i.Next(randi(size(i.Next,2)));
+                arrayfun(@(x) cut(i,x),i.Next);
+                insertAfter(toConnect,i);
+            else
+                toConnect=i.Next;
+            end
             solArray=[solArray,toConnect];
             temp=[temp,toConnect.Next];
         end
