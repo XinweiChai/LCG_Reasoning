@@ -16,7 +16,9 @@ while ~isempty(root)
                 j=j.Next;
             end
             if hasNext(j)
-                insertBranch(j,i);
+                if ~ismember(j,i.NextBranch)
+                    insertBranch(j,i);
+                end
                 root=[root,j];
                 gateTree=[gateTree,j];
             end
@@ -24,8 +26,7 @@ while ~isempty(root)
         root=root(2:end);
     end
 end
-
-
+gateTree=unique(gateTree);
 % startNode=adjList{1,startNode};
 % if isempty(startNode)
 %     gateTree=[];

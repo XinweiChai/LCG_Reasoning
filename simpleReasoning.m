@@ -2,6 +2,9 @@ function [reachable,sequence,tempState]=simpleReasoning(state,startNode)
 sequence=[];
 reachable=0;
 tempState=state;
+if size(startNode,2)>1
+    1;
+end
 if startNode.Data(2)==state(startNode.Data(1))
     reachable=1;
     return;

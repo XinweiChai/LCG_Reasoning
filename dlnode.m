@@ -33,7 +33,7 @@ classdef dlnode <  matlab.mixin.Copyable
         end
         
         function insertBranch(after,before)
-            after.PrevBranch = before;
+            after.PrevBranch = [after.PrevBranch,before];
             before.NextBranch = [before.NextBranch,after];
         end
         function deleteNode(node)

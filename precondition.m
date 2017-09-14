@@ -31,15 +31,15 @@
 % end
 % while isempty(find(noSolution, 1))
 %     actionsToDelete=find(adjMatrix(:,noSolution));
-%     
+%
 %     adjMatrix(:,noSolution)=zeros(1,size(adjMatrix,1));
-%     
+%
 % end
 function stateArray=precondition(stateArray,initialState)
 ind=arrayfun(@(i) isempty(i.Next) && ~isempty(i.Prev)...
-&& initialState(i.Data(1))~=i.Data(2),stateArray);
+    && initialState(i.Data(1))~=i.Data(2),stateArray);
 arrayfun(@(x) deleteNode(x.Prev),stateArray(ind));
-stateArray(ind)=[];
+arrayfun(@(x) deleteNode(x),stateArray(ind));
 if any(ind)
     stateArray=precondition(stateArray,initialState);
 end

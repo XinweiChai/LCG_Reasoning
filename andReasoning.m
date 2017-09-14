@@ -1,4 +1,7 @@
-function [reachable,sequence,state]=andReasoning(andGateTree,startNode,state)
+function [reachable,sequence,state]=andReasoning(andGateTree,startNode,state,count)
+if count==2
+    1;
+end
 reachable=0;
 sequence=[];
 if isempty(andGateTree)
@@ -9,7 +12,7 @@ end
 while ~isempty(andGateTree)
     leaves=andGateTree(arrayfun(@(x) isempty(x.NextBranch),andGateTree));
     for i=leaves
-        cutBranch(i.PrevBranch,i);
+        arrayfun(@(x) cutBranch(x,i),i.PrevBranch);
         andGateTree(arrayfun(@(x) isequal(x,i),andGateTree))=[];
         cand=perms(i.Next); 
         for j=cand'

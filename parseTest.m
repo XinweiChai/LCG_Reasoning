@@ -41,4 +41,14 @@ while ~feof(f)
     end
     tline = fgetl(f);
 end
+if isempty(inconc)
+    inconc=zeros(2^size(dictInput,1),size(dictInput,1));
+    for i=0:1
+        for j=0:1
+            for k=0:1
+                inconc(4*i+2*j+k+1,:)=[i,j,k];
+            end
+        end
+    end
+end
 end
