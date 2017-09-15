@@ -1,6 +1,6 @@
 clc;clear
 x=input('0 for TCR tests, 1 for egfr inconclusive tests: ');
-data={'tcrsig94.an','egfr104.an'};
+data={'tcrsig94.an','egfr104test.an'};
 out={'run-tcrsig94.out';'run-egfr104-priority.out'};
 [process, actions, initialState]=readBAN(['data\\',data{x+1}]);
 [tests,dictInput,dictOutput]=parseTest(['data\\',out{x+1}]);
@@ -25,7 +25,7 @@ for i=tests'
             numStates=2*size(initialState,2);
             stateArray=precondition(stateArray,tempInitialState);
             reachable=0;
-            for l=1:500
+            for l=1:50
                 stateArrayCopy=copy(stateArray);
                 startNodeCopy=copy(startNode);
                 [startNodeCopy,stateArrayCopy,solArray]=reconstruct(stateArrayCopy,startNodeCopy);

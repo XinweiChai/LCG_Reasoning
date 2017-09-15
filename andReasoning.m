@@ -30,6 +30,9 @@ while ~isempty(andGateTree)
                 state=copyState;
                 %                 temp=adjList{2,andGateTree{1,i}};
                 %                 forkNode=adjList{2,temp};
+                if size(i.Prev,2)>1
+                    1;
+                end
                 [~,partialSequence,state]=simpleReasoning(state,i.Prev);
                 sequence=[sequence,partialSequence];
                 break;
