@@ -1,9 +1,11 @@
 clc;clear
-x=input('0 for TCR tests, 1 for egfr inconclusive tests: ');
+% x=input('0 for TCR tests, 1 for egfr inconclusive tests: ');
 data={'tcrsig94.an','egfr104test.an'};
 out={'run-tcrsig94.out';'run-egfr104-priority.out'};
-[process, actions, initialState]=readBAN(['data\\',data{x+1}]);
-[tests,dictInput,dictOutput]=parseTest(['data\\',out{x+1}]);
+% [process, actions, initialState]=readBAN(['data\\',data{x+1}]);
+% [tests,dictInput,dictOutput]=parseTest(['data\\',out{x+1}]);
+[process, actions, initialState]=readBAN('data\\egfr104test.an');
+[tests,dictInput,dictOutput]=parseTest('data\\run-egfr104-priority.out');
 result=zeros(size(tests,1),size(dictOutput,1));
 count=0;
 for i=tests'
@@ -15,6 +17,9 @@ for i=tests'
     end
         for k=1:size(dictOutput,1)
             startState=[process(dictOutput(k)), 1];
+            if k==12
+                1;
+            end
             [stateArray, adjMatrix,solArray]=SLCG(tempInitialState, actions, startState);
             startNode=stateArray(startState(1)*2+startState(2)-1);
             [SCC,~] = tarjan(adjMatrix);
@@ -25,13 +30,12 @@ for i=tests'
             numStates=2*size(initialState,2);
             stateArray=precondition(stateArray,tempInitialState);
             reachable=0;
-            for l=1:50
-                stateArrayCopy=copy(stateArray);
-                startNodeCopy=copy(startNode);
-                [startNodeCopy,stateArrayCopy,solArray]=reconstruct(stateArrayCopy,startNodeCopy);
+            for l=1:5
+                [stateArray, adjMatrix,solArray]=SLCG(tempInitialState, actions, startState);
+                [startNode,stateArray,solArray]=reconstruct(stateArray,startNode);
                 andGates=solArray(arrayfun(@(x) size(x.Next,2)>1,solArray));
-                andGateTree=gateTree(andGates,startNodeCopy);
-                [reachable,sequence,finalState]=andReasoning(andGateTree,startNodeCopy,tempInitialState);
+                andGateTree=gateTree(andGates,startNode);
+                [reachable,sequence,finalState]=andReasoning(andGateTree,startNode,tempInitialState);
                 if reachable
                     break;
                 end

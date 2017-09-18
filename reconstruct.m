@@ -58,6 +58,7 @@ while ~isempty(toVisit)
             if size(i.Next,2)>1
                 toConnect=i.Next(randi(size(i.Next,2)));
                 arrayfun(@(x) cut(i,x),i.Next);
+%                 setNext(i,toConnect);
                 insertAfter(toConnect,i);
             else
                 toConnect=i.Next;

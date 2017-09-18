@@ -66,19 +66,8 @@ classdef dlnode <  matlab.mixin.Copyable
         function bool=hasNext(node)
             bool=~isempty(node.Next);
         end
-%         function bool=isGate(node,initialState)
-% %             count=0;
-%             for i=node.Next
-%                 if i.Data(2)==initialState(i.Data(1))
-%                     cut(node,i);
-% %                     count=count+1;
-%                 end
-%             end
-%             bool=size(node.Next,2)>1;
-%             if size(node.Next,2)>10
-%                 disp('Big and gates detected, continue?');
-%                 pause;
-%             end
+%         function setNext(node,next)
+%             node.Next=next;
 %         end
     end % methods
     

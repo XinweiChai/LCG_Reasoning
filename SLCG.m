@@ -34,7 +34,7 @@ while ~isempty(Ls)
             for j=find(act)'%successive actions
                 nodej=solNodeArray(j);
                 insertAfter(nodej,nodei);
-                adjMatrix((i(1)-1)*2+i(2)+1,size(initialState,2)*2+j)=1;
+                adjMatrix(i(1)*2+i(2)-1,size(initialState,2)*2+j)=1;
                 for k=actions{j,1}'
                     nodek=stateNodeArray(k(1)*2+k(2)-1);
                     insertAfter(nodek,nodej);
