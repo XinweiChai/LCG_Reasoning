@@ -1,10 +1,10 @@
-function [dict, actions, initialState,startNode]=readBAN(fn)
+function [dict, actions, initialState,startState]=readBAN(fn)
 f=fopen(fn,'r');
 actions=cell(0,4);
 readProc=0;
 process=[];
 hasStartNode=0;
-startNode=[0 0];
+startState=[0 0];
 while ~feof(f)
     tline = fgetl(f);
     %split file
@@ -14,8 +14,8 @@ while ~feof(f)
             %pos=strfind(tline,'goal');
             words=regexp(tline,',*\s|\(\*|\*\)','split');
             pos= find(strcmp(words, 'goal'));
-            startNode=words{pos+1};
-            startNode=regexp(startNode,'_','split');
+            startState=words{pos+1};
+            startState=regexp(startState,'_|=','split');
             tline=fgetl(f);
         end
     end
@@ -26,7 +26,7 @@ while ~feof(f)
         readProc=1;
         dict = containers.Map(process,1:size(process,1));
         if hasStartNode
-            startNode=[dict(startNode{1}),str2double(startNode{2})];
+            startState=[dict(startState{1}),str2double(startState{2})];
         end
     end
     if ~readProc %read processes
