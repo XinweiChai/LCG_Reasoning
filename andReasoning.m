@@ -1,4 +1,5 @@
 function [reachable,sequence,state]=andReasoning(andGateTree,startNode,state)
+tic
 reachable=0;
 sequence=[];
 if isempty(andGateTree)
@@ -17,6 +18,10 @@ while ~isempty(andGateTree)
             reachable=1;
             cache=[];
             for k=j'
+                t=toc;
+                if t>5
+                    1;
+                end
                 [partialReachable,partialSequence,copyState]=simpleReasoning(copyState,k);
                 reachable=reachable*partialReachable;
                 if ~partialReachable
