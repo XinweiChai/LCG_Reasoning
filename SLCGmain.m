@@ -7,11 +7,11 @@ if ~strcmp(x,'0')
     startState=[process(temp{1}),str2double(temp{2})];
 end
 [stateArray, adjMatrix,solNodeArray]=SLCG(initialState, actions, startState);
-startNode=stateArray(startState(1)*2+startState(2)-1);
-initialStateBool=zeros(size(initialState,2)*2,1);
+startNodeBool=startState(1)*2+startState(2)-1;
+startNode=stateArray(startNodeBool);
 [SCC,~] = tarjan(adjMatrix);
 while size(SCC,2)~=size(adjMatrix,2)
-    [Adj,stateArray]=breakCycle(adjMatrix,SCC,startState,stateArray);
+    [Adj,stateArray]=breakCycle(adjMatrix,SCC,startNodeBool,stateArray,solNodeArray);
     [SCC,~] = tarjan(Adj);
 end
 stateArray=precondition(stateArray,initialState);

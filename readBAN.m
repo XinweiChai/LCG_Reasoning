@@ -53,7 +53,7 @@ while ~feof(f)
             res=regexp(tline,',*\s','split');
             for i=2:size(res,2)
                 temp=regexp(res{i},'=','split');
-                initialState(dict(temp{1}))=1;
+                initialState(dict(temp{1}))=str2double(temp{2});
             end
         end
     end

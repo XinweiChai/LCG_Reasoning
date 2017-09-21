@@ -42,6 +42,10 @@ classdef dlnode <  matlab.mixin.Copyable
                     j.Next(arrayfun(@(x) isequal(x,i),j.Next))=[];
                     break;
                 end
+                for j=i.Next
+                    j.Prev(arrayfun(@(x) isequal(x,i),j.Prev))=[];
+                    break;
+                end
                 i.Next = dlnode.empty;
                 i.Prev = dlnode.empty;
             end

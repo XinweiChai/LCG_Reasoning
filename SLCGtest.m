@@ -1,7 +1,7 @@
 clc;clear
 x=input('0 for TCR tests, 1 for egfr inconclusive tests: ');
-data={'tcrsig94.an','egfr104test.an'};
-out={'run-tcrsig94.out';'run-egfr104-priority.out'};
+data={'tcrsig94.an','egfr104.an'};
+out={'run-tcrsig94.out';'run-egfr104.out'};
 [process, actions, initialState]=readBAN(['data\\',data{x+1}]);
 [tests,dictInput,dictOutput]=parseTest(['data\\',out{x+1}]);
 % [process, actions, initialState]=readBAN('data\\egfr104test.an');
@@ -21,10 +21,11 @@ for i=tests'
                 1;
             end
             [stateArray, adjMatrix,solArray]=SLCG(tempInitialState, actions, startState);
-            startNode=stateArray(startState(1)*2+startState(2)-1);
+            startNodeBool=startState(1)*2+startState(2)-1;
+            startNode=stateArray(startNodeBool);
             [SCC,~] = tarjan(adjMatrix);
             while size(SCC,2)~=size(adjMatrix,2)
-                [Adj,stateArray]=breakCycle(adjMatrix,SCC,startState,stateArray);
+                [Adj,stateArray]=breakCycle(adjMatrix,SCC,startNodeBool,stateArray,solNodeArray);
                 [SCC,~] = tarjan(Adj);
             end
             stateArray=precondition(stateArray,tempInitialState);
