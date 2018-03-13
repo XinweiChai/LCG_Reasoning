@@ -15,7 +15,7 @@ function [Adj,stateNodeArray]=breakCycle(Adj,SCC,startNode,stateNodeArray,solNod
                 extLink=find(ismember(pred,SCC{i})==0);
                 if ~isempty(extLink)
                     toDelete=fliplr(pred')';
-                    toDelete(toDelete==pred(extLink))=[];
+                    toDelete(toDelete==pred(extLink))=[];%Elements in the cycle
                     predofDelete=find(Adj(:,toDelete));
                     Adj=deleteElement(Adj,toDelete,stateNodeArray,solNodeArray);
                     Adj(:,j)=zeros(1,size(Adj,1));
